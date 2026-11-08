@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>통계적 추정</title>
+<meta name="description" content="우연의 과학통계학 2장 통계적 추정. 박사·하루·초파리 연구원·주판봇이 진행하는 점추정·신뢰구간·t·χ²·F 분포 인터랙티브 해설과 100문항 모의고사.">
+<meta name="author" content="안상선">
+<meta property="og:type" content="website">
+<meta property="og:title" content="우연의 과학통계학 — 2장 통계적 추정">
+<meta property="og:description" content="표본 한 줌으로 모집단을 말하는 법. 직접 돌려 보는 신뢰구간 해설 10편과 모의고사">
+<meta property="og:url" content="https://adminmrobo.github.io/statistics_note_ch04_statistical-estimation/">
+<meta property="og:image" content="https://adminmrobo.github.io/statistics_note_ch04_statistical-estimation/assets/og_2_1_a.png">
+<link rel="canonical" href="https://adminmrobo.github.io/statistics_note_ch04_statistical-estimation/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f8fb;--panel:#fff;--panel2:#f1f3f8;--rule:#dfe2ec;--text:#1f2233;--muted:#5f6479;
+  --stain:#a8459f;--gfp:#118a5a;--eye:#cf4430;--amber:#a86f00;--info:#2a63c9;
+  --c-doc:#7445cf;--c-asst:#c8407f;--c-fly:#c93a3a;--c-robo:#0f8494;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.7 "IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif}
+h1,h2,h3,p,li{word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--info)}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+nav.top{position:sticky;top:0;z-index:10;height:54px;display:flex;align-items:center;gap:14px;padding:0 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.logo{font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo i{width:18px;height:20px;background:var(--gfp);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+nav.top .links{display:flex;gap:4px;margin-left:auto;overflow-x:auto}
+nav.top .links a{color:var(--muted);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+nav.top .links a:hover{background:var(--panel2);color:var(--text)}
+header.hero{padding:60px 0 44px;border-bottom:1px solid var(--rule);background:radial-gradient(900px 420px at 85% 0%,#ece4fb 0,transparent 60%),linear-gradient(180deg,#fff,var(--bg))}
+.hero .grid{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.hero .who{display:flex;gap:2px}.hero .who img{width:84px;height:84px;object-fit:contain}
+.eyebrow{color:var(--gfp);font-weight:700;font-size:14px;letter-spacing:.04em}
+h1{font-size:clamp(34px,5.5vw,58px);line-height:1.12;margin:.15em 0 .3em}
+.lead{color:#3a3f55;max-width:640px;margin:0}
+.q{color:var(--amber);font-weight:700;font-size:clamp(17px,2vw,20px);margin:.8em 0 0}
+section{padding:52px 0;border-bottom:1px solid var(--rule)}
+h2{font-size:clamp(24px,3vw,32px);margin:0 0 .5em}
+.cast{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cast>div{background:var(--panel);border:1px solid var(--rule);border-top:3px solid;border-radius:14px;padding:14px;text-align:center}
+.cast img{width:96px;height:96px;object-fit:contain;background:var(--panel2);border-radius:14px}
+.cast b{display:block;margin-top:6px}.cast p{margin:.3em 0 0;font-size:14px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s;box-shadow:0 2px 0 #e8eaf1}
+a.card:hover{border-color:var(--gfp);transform:translateY(-2px)}
+.card.exam{border-color:#d7cbf3;background:#fbf9ff}
+.card img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;object-position:top;display:block;background:var(--panel2);border-bottom:1px solid var(--rule)}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card .no{font-size:13px;color:var(--gfp);font-weight:700}
+.card h3{margin:0;font-size:19px;line-height:1.35}
+.card p{margin:0;font-size:14.5px;color:#454a60}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.tag{font-size:12px;padding:2px 9px;border-radius:99px;border:1px solid var(--rule);color:var(--muted);background:var(--panel2)}
+.tag.f{color:var(--c-fly);border-color:rgba(201,58,58,.4)}.tag.r{color:var(--c-robo);border-color:rgba(15,132,148,.4)}.tag.c{color:var(--c-doc);border-color:rgba(116,69,207,.4)}.tag.d{color:var(--amber);border-color:rgba(168,111,0,.4)}.tag.q{color:var(--c-asst);border-color:rgba(200,64,127,.4)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.flow>div{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:14px 16px}
+.flow b{color:var(--info)}.flow p{margin:.3em 0 0;font-size:14.5px;color:#454a60}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.steps>div{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:16px}
+.steps h3{margin:0 0 .3em;font-size:16px}.steps p{margin:0;font-size:14.5px;color:#454a60}
+.n{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--panel2);color:var(--gfp);align-items:center;justify-content:center;font-size:13px;margin-right:6px}
+footer{padding:36px 0 60px;color:var(--muted);font-size:14px}footer p{margin:.3em 0}
+@media (max-width:860px){.cast{grid-template-columns:repeat(2,1fr)}.steps,.flow{grid-template-columns:1fr 1fr}.hero .grid{grid-template-columns:1fr}}
+@media (max-width:520px){.wrap{padding:0 16px}.cards,.steps,.flow{grid-template-columns:1fr}.hero .who img{width:64px;height:64px}nav.top .links a{padding:6px 6px}}
+@media (prefers-reduced-motion:reduce){a.card{transition:none}a.card:hover{transform:none}}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="바로가기">
+  <div class="logo"><i aria-hidden="true"></i>통계적 추정</div>
+  <div class="links"><a href="#pages">해설 페이지</a><a href="#flow">흐름</a><a href="#cast">등장인물</a><a href="#how">보는 법</a><a href="2-10_mock_exam.html">모의고사</a></div>
+</nav>
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow">우연의 과학통계학 · 2장</div>
+      <h1>통계적 추정</h1>
+      <p class="lead">공장 과자 1만 개의 평균 무게, 유권자 전체의 지지율, 효모 한 통의 농도 — 전부를 잴 수 없을 때 우리는 표본 한 줌으로 말합니다. 박사·하루·초파리 연구원·주판봇과 함께 점추정에서 신뢰구간, t·χ²·F 분포까지 직접 돌려 보며 익히고, 마지막에 100문항 모의고사로 정리합니다.</p>
+      <p class="q">"95%의 확률로 μ가 들어 있다"는 왜 틀린 말일까?</p>
+    </div>
+    <div class="who" aria-hidden="true"><img src="assets/characters/fly_e10.webp" alt=""><img src="assets/characters/doc_e08.webp" alt=""><img src="assets/characters/asst_e13.webp" alt=""><img src="assets/characters/robo_e13.webp" alt=""></div>
+  </div>
+</header>
+<section id="pages"><div class="wrap">
+  <h2>해설 페이지</h2>
+  <div class="cards">
+    <!-- 새 페이지를 추가할 때는 아래 <a class="card"> 블록 하나를 복사해 고친다 (README 참고) -->
+    <a class="card" href="2-1a_point_interval.html">
+      <img src="assets/thumb_2_1_a.png" alt="점추정과 신뢰구간 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.1.a</div><h3>점추정과 신뢰구간</h3><p>과자 한 줌으로 상자 전체 말하기. 모수·통계량, 점추정, 표준오차, 그리고 고리 100번 던지기로 보는 95%의 뜻.</p><div class="tags"><span class="tag">점추정</span><span class="tag">표준오차</span><span class="tag">신뢰구간</span><span class="tag f">대결: 초파리 승</span><span class="tag">퀴즈 9</span></div></div>
+    </a>
+    <a class="card" href="2-1b_ci_practice.html">
+      <img src="assets/thumb_2_1_b.png" alt="신뢰구간 실습 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.1.b</div><h3>신뢰구간 실습</h3><p>정답을 봉인한 모집단에서 95·99% 구간을 1,000번 만들어 채점합니다. 내 CSV를 열어 같은 실습을 할 수 있습니다.</p><div class="tags"><span class="tag">적중률</span><span class="tag">95% vs 99%</span><span class="tag">CSV 실습</span><span class="tag f">대결: 초파리 승</span><span class="tag">퀴즈 6</span></div></div>
+    </a>
+    <a class="card" href="2-2_normal_distribution.html">
+      <img src="assets/thumb_2_2.png" alt="정규분포에서 신뢰구간 사례까지 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.2</div><h3>정규분포에서 신뢰구간 사례까지</h3><p>z표 하나로 평균과 비율 잡기. 정규분포·표준화·중심극한정리, z·t 평균 구간, 품질검사와 여론조사의 비율 구간.</p><div class="tags"><span class="tag">정규분포</span><span class="tag">중심극한정리</span><span class="tag">비율 구간</span><span class="tag r">대결: 주판봇 승</span><span class="tag">퀴즈 11</span></div></div>
+    </a>
+    <a class="card" href="2-3_t_chi_f.html">
+      <img src="assets/thumb_2_3.png" alt="t·카이제곱·F 분포 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.3</div><h3>t·카이제곱·F 분포</h3><p>정규분포에서 태어난 세 형제. σ를 모를 때의 t, 분산을 재는 χ², 두 분산을 비교하는 F.</p><div class="tags"><span class="tag">t분포</span><span class="tag">카이제곱</span><span class="tag">F분포</span><span class="tag f">대결: 초파리 승</span><span class="tag">퀴즈 6</span></div></div>
+    </a>
+    <a class="card" href="2-4_sampling_distribution.html">
+      <img src="assets/thumb_2_4.png" alt="표본분포와 모비율 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.4</div><h3>표본분포와 모비율</h3><p>12명에서 나올 수 있는 표본 220개를 모두 세어 표본분포를 만들고, 유한 모집단 보정과 표본비율의 분포까지.</p><div class="tags"><span class="tag">표본분포</span><span class="tag">유한모집단 보정</span><span class="tag">모비율</span><span class="tag r">대결: 주판봇 승</span><span class="tag">퀴즈 8</span></div></div>
+    </a>
+    <a class="card" href="2-5_degrees_of_freedom.html">
+      <img src="assets/thumb_2_5.png" alt="표본 크기와 자유도 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.5</div><h3>표본 크기와 자유도</h3><p>n − 1은 어디서 왔나. 평균이 고정된 점수로 자유도를 만지고, n과 n−1로 나눈 분산을 5,000번 비교합니다.</p><div class="tags"><span class="tag">자유도</span><span class="tag">베셀 보정</span><span class="tag">불편추정</span><span class="tag c">대결: 조건부</span><span class="tag">퀴즈 6</span></div></div>
+    </a>
+    <a class="card" href="2-6_ci_code_review.html">
+      <img src="assets/thumb_2_6.png" alt="신뢰구간 코드 복습 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.6</div><h3>신뢰구간 코드 복습</h3><p>숫자를 바꾸는 실수와 비트코인 과제. 코드의 흔한 실수를 켜고 끄며 구간이 어떻게 틀어지는지 봅니다.</p><div class="tags"><span class="tag">코드 리뷰</span><span class="tag">표본 크기</span><span class="tag">시계열 주의</span><span class="tag d">대결: 무승부</span><span class="tag">퀴즈 6</span></div></div>
+    </a>
+    <a class="card" href="2-7_beer_yeast_t.html">
+      <img src="assets/thumb_2_7.png" alt="맥주 효모와 t분포 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.7</div><h3>맥주 효모와 t분포</h3><p>시료 몇 병으로 말하는 법. 고셋이 양조장에서 만난 소표본 문제를 실험과 계산기로 따라갑니다.</p><div class="tags"><span class="tag">고셋</span><span class="tag">소표본</span><span class="tag">t 구간</span><span class="tag r">대결: 주판봇 승</span><span class="tag">퀴즈 5</span></div></div>
+    </a>
+    <a class="card" href="2-8_medical_data.html">
+      <img src="assets/thumb_2_8.png" alt="의료 데이터 실습 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.8</div><h3>의료 데이터 실습</h3><p>모의 환자 1,000명 검사표에서 변수별 95% 구간, 남녀 차이의 구간, 기준값 비율의 구간을 만듭니다.</p><div class="tags"><span class="tag">실데이터 흐름</span><span class="tag">차이 구간</span><span class="tag">다중 비교</span><span class="tag r">대결: 주판봇 승</span><span class="tag">퀴즈 6</span></div></div>
+    </a>
+    <a class="card" href="2-9_ci_synthesis.html">
+      <img src="assets/thumb_2_9.png" alt="신뢰구간 추정 종합 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.9</div><h3>신뢰구간 추정 종합</h3><p>커피 한 잔으로 z·t·χ²·F. 분포 고르기 마법사와 구간에서 의사결정까지 2장을 한 번에 정리합니다.</p><div class="tags"><span class="tag">분포 고르기</span><span class="tag">분산 구간</span><span class="tag">종합</span><span class="tag c">대결: 조건부</span><span class="tag">퀴즈 6</span></div></div>
+    </a>
+    <a class="card exam" href="2-10_mock_exam.html">
+      <img src="assets/thumb_2_10.png" alt="모의·연습문제 퀴즈 페이지 첫 화면" width="600" height="400" loading="lazy">
+      <div class="body"><div class="no">2.10</div><h3>모의·연습문제 퀴즈</h3><p>2.1~2.9를 복습하는 100문항 게임. 전체 50문제 모의고사와 묶음별 20문제, 타이머·효과음·오답 리뷰, 인쇄용 PDF.</p><div class="tags"><span class="tag">모의고사</span><span class="tag">객관식·OX·단답</span><span class="tag">PDF</span><span class="tag q">100문항</span></div></div>
+    </a>
+  </div>
+</div></section>
+<section id="flow"><div class="wrap">
+  <h2>2장의 흐름</h2>
+  <div class="flow">
+    <div><b>① 구간이란 (2.1)</b><p>점추정 → 표준오차 → 신뢰구간. 95%는 "방법의 적중률"입니다.</p></div>
+    <div><b>② 분포의 도구 (2.2–2.3)</b><p>정규·z, 그리고 σ를 모를 때 t, 분산의 χ², 분산 비의 F.</p></div>
+    <div><b>③ 왜 그렇게 되나 (2.4–2.5)</b><p>표본분포를 직접 세어 보고, n − 1의 이유를 확인합니다.</p></div>
+    <div><b>④ 실습과 종합 (2.6–2.10)</b><p>코드 실수, 소표본, 의료 데이터, 종합 마법사, 그리고 모의고사.</p></div>
+  </div>
+</div></section>
+<section id="cast"><div class="wrap">
+  <h2>등장인물</h2>
+  <div class="cast">
+    <div style="border-top-color:var(--c-doc)"><img src="assets/characters/doc_e08.webp" alt="" width="96" height="96"><b style="color:var(--c-doc)">박사</b><p>해설과 판정. 판정은 숫자대로.</p></div>
+    <div style="border-top-color:var(--c-asst)"><img src="assets/characters/asst_e13.webp" alt="" width="96" height="96"><b style="color:var(--c-asst)">하루(조수)</b><p>실험을 돌리고 숫자를 발표. 모의고사 진행도 맡습니다.</p></div>
+    <div style="border-top-color:var(--c-fly)"><img src="assets/characters/fly_e10.webp" alt="" width="96" height="96"><b style="color:var(--c-fly)">초파리 연구원</b><p>의심하는 쪽. "정말 그럴까?"</p></div>
+    <div style="border-top-color:var(--c-robo)"><img src="assets/characters/robo_e13.webp" alt="" width="96" height="96"><b style="color:var(--c-robo)">주판봇</b><p>확신하는 쪽. 높은 숫자에 건다.</p></div>
+  </div>
+</div></section>
+<section id="how"><div class="wrap">
+  <h2>보는 법</h2>
+  <div class="steps">
+    <div><h3><span class="n">1</span>개념 사다리</h3><p>쉬운 칸에서 시작해, 각 칸의 한계가 다음 칸을 부릅니다. 칸마다 직접 만지는 시뮬레이션과 계산기가 있어요.</p></div>
+    <div><h3><span class="n">2</span>대결과 판정</h3><p>초파리(의심)와 주판봇(확신)이 서로 다른 선택을 하고, 페이지 안의 계산으로 승패가 갈립니다. 결과 보기 전에 먼저 맞혀 보세요.</p></div>
+    <div><h3><span class="n">3</span>퀴즈와 모의고사</h3><p>칸마다 확인 퀴즈, 노란 점선 밑줄은 용어 풀이. 다 읽었으면 2.10 모의고사(100문항)로 마무리하고, 틀린 문항은 링크로 바로 돌아갑니다.</p></div>
+  </div>
+</div></section>
+<footer><div class="wrap">
+  <p>글 · 안상선 ((주)M-Robo 대표) · AI 보조 제작 · 우연의 과학통계학 2장 통계적 추정 · 2026-11-08</p>
+  <p>캐릭터 그림: <a href="https://github.com/adminmrobo/fruitfly-lab-expressions">adminmrobo/fruitfly-lab-expressions</a> · 각 페이지의 참고 자료는 페이지 맨 아래 출처 표에 있습니다.</p>
+  <p>인용: 안상선 (2026). 우연의 과학통계학 — 2장 통계적 추정. https://adminmrobo.github.io/statistics_note_ch04_statistical-estimation/</p>
+</div></footer>
+</body></html>
