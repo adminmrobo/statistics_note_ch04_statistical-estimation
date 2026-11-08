@@ -51,7 +51,8 @@
 ├── 2-10_mock_exam.html               # 2.10 모의·연습문제 퀴즈 게임
 ├── data/
 │   ├── ch4_scores400.csv             # 2.1.b·2.6 실습 파일 (성적 400명)
-│   └── death.csv                     # 2.1.b·2.6 실습 파일 (사망 나이 21,458명)
+│   ├── death.csv                     # 2.1.b·2.6 실습 파일 (사망 나이 21,458명)
+│   └── simulated_patient_data.csv    # 2.8 실습 파일 (가상 환자 1,000명)
 ├── pdfs/
 │   └── mock-exam-ch2.pdf             # 인쇄용 모의고사
 ├── assets/
@@ -96,8 +97,8 @@
 - "강의 노트에서 바로잡은 곳" 상자 — 원래 노트의 수치·해석 오류를 고친 부분
 - 확인 퀴즈 69문항(페이지 안) + 모의고사 100문항, 용어 말풍선, 읽은 곳·퀴즈 진행 도우미
 - 지식 색인(검색·관계 그래프)과 온톨로지·서지 꾸러미(JSON-LD, Turtle, CSV, CSL-JSON, BibTeX, RIS를 ZIP으로 내려받기)
-- 2.1.b·2.6은 실습 파일(성적 400명 `data/ch4_scores400.csv`, 유명인 사망 나이 21,458명 `data/death.csv`)을 페이지 안에 그대로 넣어 계산. 사망 나이는 [Kaggle Celebrity Deaths](https://www.kaggle.com/datasets/hugodarwood/celebrity-deaths)(2006~2016)의 나이 열이며 이용 조건은 원본을 따름
-- 2.1.b·2.8은 **내 CSV 열기**를 지원. 2.8의 기본 환자 데이터는 노트의 요약 통계를 따라 만든 대체 데이터이며 화면에 그렇게 표시됨
+- 실습 파일을 페이지 안에 그대로 넣어 계산: 2.1.b·2.6 — 중간고사 성적 400명(`data/ch4_scores400.csv`)과 유명인 사망 나이 21,458명(`data/death.csv`, 실제 데이터인 [Kaggle Celebrity Deaths](https://www.kaggle.com/datasets/hugodarwood/celebrity-deaths) 2006~2016에서 추정 대상인 나이 열만 뽑은 파일, 이용 조건은 원본을 따름) · 2.8 — 가상 환자 1,000명(`data/simulated_patient_data.csv`)
+- 2.1.b·2.8은 **내 CSV 열기**로 다른 파일을 열어 같은 계산을 해 볼 수 있음
 - 외부 스크립트·브라우저 저장소를 쓰지 않음. 외부 요청은 Google Fonts 글꼴 하나
 
 ## 출처와 크레딧
